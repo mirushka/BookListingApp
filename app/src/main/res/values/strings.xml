@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Your Library</string>
     <string name="hint">Tipe name of the book or writer</string>
-    <string name="no_books_found">No books found. Please, check your internet connection.</string>
+    <string name="no_books_found">No books found.</string>
     <string name="Title">title</string>
-    <string name="no_connection">There is no internet connection</string>
-    <string name="no_data_toDisplay">No data found.</string>
+    <string name="no_connection">There is no internet connection.</string>
 </resources>

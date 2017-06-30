@@ -1,8 +1,10 @@
 package com.example.android.booklistingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -81,6 +84,18 @@ public class MainActivity extends AppCompatActivity {
         // so the list can be populated in the user interface
         bookListView.setAdapter(mAdapter);
 
+        // OnItemClickListener open the website for the current book
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Books currentBook = mAdapter.getItem(position);
+                Uri bookUri = Uri.parse(currentBook.getUrl());
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, bookUri);
+                if (webIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(webIntent);
+                }
+            }
+        });
 
         BookListAsyncTask task = new BookListAsyncTask();
 
@@ -140,14 +155,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-// Check the Internet Connection.
+    // Check the Internet Connection.
 
     private boolean checkInternetConnection() {
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(CONNECTIVITY_SERVICE);
-
-// Get details
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             return true;
@@ -157,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+
 
     /**
      * {@link AsyncTask} to perform the network request on a background thread, and
@@ -223,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 //Show the empty state with no connection error message
                 mEmptyView.setVisibility(View.VISIBLE);
                 //Update empty state text to display "Oops, No data found."
-                mEmptyView.setText(R.string.no_data_toDisplay);
+                mEmptyView.setText(R.string.no_books_found);
             }
         }
     }

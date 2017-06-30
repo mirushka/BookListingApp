@@ -40,19 +40,23 @@
 
     <!-- Populated List View by the querie. -->
     <ListView
+        android:layout_centerInParent="true"
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_field"
+        android:textSize="@dimen/text_title"
         android:orientation="vertical" />
 
     <!-- Warning message if there is no internet connection. -->
     <TextView
+        android:layout_below="@id/search_field"
         android:id="@+id/empty_text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        tools:text="@string/no_books_found" />
+        tools:text="@string/no_books_found"
+        android:textSize="@dimen/text_title"/>
 
     <!-- Loading indicator is only shown before the first load -->
     <ProgressBar
