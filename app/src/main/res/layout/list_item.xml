@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/padding_normal"
+    android:paddingTop="@dimen/padding_normal">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_height="@dimen/book_picture"
+        android:layout_width="@dimen/book_picture"
+        android:padding="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small" />
+
+    <LinearLayout
+        android:id="@+id/book_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_normal">
+
+        <TextView
+            android:id="@+id/book_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/Title"
+            android:textSize="@dimen/text_title"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:textSize="@dimen/text_normal"
+            android:id="@+id/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Subtitle" />
+
+        <TextView
+            android:textSize="@dimen/text_normal"
+            android:id="@+id/author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Writer" />
+
+    </LinearLayout>
+</LinearLayout>
