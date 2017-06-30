@@ -122,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 
                 //If there is a network connection
                 if (isInternetConnected) {
@@ -159,8 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkInternetConnection() {
         // Get a reference to the ConnectivityManager to check state of network connectivity
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             return true;
