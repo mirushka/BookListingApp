@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Create a ConnectivityManager and get the NetworkInfo from it
-        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
         //Create a boolean variable for the connectivity status
@@ -127,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
+                NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+                final boolean isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+
                 //If there is a network connection
                 if (isConnected) {
                     Log.e(LOG_TAG, "This is called if there is a internet connection.");
@@ -148,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(LOG_TAG, "This is called when there is NO Internet connection.");
                     // First, hide loading indicator so error will be visible
                     loadingIndicator.setVisibility(View.GONE);
+                    bookListView.setVisibility(View.GONE);
                     //Show the empty state with no connection error message
                     mEmptyView.setVisibility(View.VISIBLE);
                     //Update empty state with no connection error message
@@ -156,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * {@link AsyncTask} to perform the network request on a background thread, and
      * then update the UI with the list of books in the response.
@@ -192,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
             if (urls.length < 1 || urls[0] == null) {
                 return null;
             }
-
             List<Books> result = UtilsQuery.fetchBooksData(urls[0]);
             return result;
         }

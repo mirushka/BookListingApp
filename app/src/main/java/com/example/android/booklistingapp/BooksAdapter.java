@@ -33,11 +33,8 @@ public class BooksAdapter extends ArrayAdapter<Books> {
         View booksList = convertView;
 
         if (booksList == null) {
-            holder = new ViewHolder(booksList);
             booksList = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
-            holder.titleView = (TextView) booksList.findViewById(R.id.book_title);
-            holder.subtitleView = (TextView) booksList.findViewById(R.id.subtitle);
-            holder.authorView = (TextView) booksList.findViewById(R.id.author);
+            holder = new ViewHolder(booksList);
             booksList.setTag(holder);
         } else {
             holder = (ViewHolder) booksList.getTag();
@@ -59,7 +56,7 @@ public class BooksAdapter extends ArrayAdapter<Books> {
         return booksList;
     }
 
-    private static class ViewHolder {
+    static class ViewHolder {
         @BindView(R.id.book_title)
         TextView titleView;
         @BindView(R.id.subtitle)
