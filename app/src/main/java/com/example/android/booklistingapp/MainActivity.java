@@ -51,14 +51,18 @@ public class MainActivity extends AppCompatActivity {
     // ProgressBar that is visible when
     private View loadingIndicator;
 
-    // Internet connection checker
-    private boolean isInternetConnected;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Create a ConnectivityManager and get the NetworkInfo from it
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        //Create a boolean variable for the connectivity status
+        final boolean isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
 
         // Find a reference to Views
         final ListView bookListView = (ListView) findViewById(R.id.list_view);
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         mEmptyView = (TextView) findViewById(R.id.empty_text_view);
         loadingIndicator = findViewById(R.id.progress_bar);
 
-        isInternetConnected = checkInternetConnection();
 
         // Set empty state view on the list view with books, when there is no data.
         bookListView.setEmptyView(mEmptyView);
@@ -99,12 +102,12 @@ public class MainActivity extends AppCompatActivity {
 
         BookListAsyncTask task = new BookListAsyncTask();
 
-        //If there is a network connection
-        if (isInternetConnected) {
+        //If the device is connected to the network
+        if (isConnected) {
             Log.e(LOG_TAG, "This is called when there is an Internet connection.");
             // Start the AsyncTask to fetch the books data
             task.execute(BOOK_URL_ANDROID);
-
+            //If the device is not connected to the network
         } else {
             Log.e(LOG_TAG, "This is called when there is NO Internet connection.");
             // Otherwise, display error
@@ -122,10 +125,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                 //If there is a network connection
-                if (isInternetConnected) {
+                if (isConnected) {
                     Log.e(LOG_TAG, "This is called if there is a internet connection.");
                     String searchWord = searchEditTextView.getText().toString().replaceAll("\\s+", "")
                             .toLowerCase();
@@ -153,23 +156,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    // Check the Internet Connection.
-
-    private boolean checkInternetConnection() {
-        // Get a reference to the ConnectivityManager to check state of network connectivity
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            return true;
-        } else {
-            mEmptyView.setVisibility(View.VISIBLE);
-            mEmptyView.setText(R.string.no_connection);
-            return false;
-        }
-    }
-
-
     /**
      * {@link AsyncTask} to perform the network request on a background thread, and
      * then update the UI with the list of books in the response.
@@ -224,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
             // First, hide loading indicator so error will be visible
             loadingIndicator.setVisibility(View.GONE);
 
-            // Clear the adapter of previous earthquake data
+            // Clear the adapter of previous  data
             mAdapter.clear();
 
             // If there is a valid list of {@link Book}s, then add to the adapter's
@@ -234,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 //Show the empty state with no connection error message
                 mEmptyView.setVisibility(View.VISIBLE);
-                //Update empty state text to display "Oops, No data found."
-                mEmptyView.setText(R.string.no_books_found);
+                //Update empty state text
+                mEmptyView.setText(R.string.no_connection);
             }
         }
     }

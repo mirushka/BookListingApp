@@ -27,6 +27,7 @@ public class UtilsQuery {
 
     private static final String LOG_TAG = UtilsQuery.class.getSimpleName();
 
+    //An empty private constructor makes sure that the class is not going to be initialised.
     private UtilsQuery() {
     }
 
